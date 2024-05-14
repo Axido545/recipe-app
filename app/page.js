@@ -4,7 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function Home() {
   return (
-    <main> Hello world
+    <main>
+      <button className="btn btn-primary">Button</button>
+      Hello world
     </main>
   );
 }
