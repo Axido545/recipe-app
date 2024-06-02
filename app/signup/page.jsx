@@ -1,7 +1,27 @@
 "use client"
+import { auth } from "../../firebase"
+import Link from "next/link";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 function SignUp() {
     const handleSubmit = (e) => {
         e.preventDefault();
+        const { email, password } = e.target.elements;
+        createUserWithEmailAndPassword(auth, email.value, password.value)
+            .then((userCredential) => {
+                //Sign In
+                const user = userCredential.user
+                console.log(user);
+                window.alert("Successfully created user " + user)
+                //..
+
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                window.alert(errorMessage)
+                //..
+            })
+
 
     }
     return (
@@ -12,14 +32,17 @@ function SignUp() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    <input type="email" name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    {/* <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div> */}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1" />
+                    <input type="password" name="password" className="form-control" id="exampleInputPassword1" />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
+                <div className="my-3">
+                    <Link href={"/signin"}>existing user ? Sign In</Link>
+                </div>
             </form>
         </div>
     )
